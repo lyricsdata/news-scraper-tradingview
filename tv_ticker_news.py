@@ -139,13 +139,16 @@ def parse_tickers(raw: str):
 
 @st.cache_data(show_spinner=False, ttl=60 * 5)
 def fetch_headlines(symbol: str, exchange: str, sort: str, _ttl_bucket: int):
-    """_ttl_bucket forces cache invalidation on the user-selected interval."""
+    """_ttl_bucket forces cache invalidation on the user-selected interval.
+
+    tradingview-scraper >= 0.4 returns a plain list of headline dicts
+    (older versions wrapped it in {"status": ..., "data": [...]}).
+    """
     scraper = NewsScraper(export_result=False)
-    kwargs = {"symbol": symbol, "sort": sort}
-    if exchange:
-        kwargs["exchange"] = exchange
-    result = scraper.scrape_headlines(**kwargs)
-    return result
+    result = scraper.scrape_headlines(symbol=symbol, exchange=exchange, sort=sort)
+    if isinstance(result, dict):
+        return result.get("data", []) or []
+    return result or []
 
 
 def format_timestamp(ts):
@@ -183,18 +186,23 @@ tabs = st.tabs([f"{sym}" + (f" ({exch})" if exch else "") for sym, exch in entri
 
 for (symbol, exchange), tab in zip(entries, tabs):
     with tab:
+        if not exchange:
+            st.warning(
+                f"{symbol}: exchange is required. Use the format SYMBOL:EXCHANGE "
+                "(e.g. AAPL:NASDAQ)."
+            )
+            continue
+
         with st.spinner(f"Fetching news for {symbol}..."):
             try:
-                result = fetch_headlines(symbol, exchange, sort_order, ttl_bucket)
+                items = fetch_headlines(symbol, exchange, sort_order, ttl_bucket)
             except Exception as e:  # noqa: BLE001
                 st.error(f"Failed to fetch news for {symbol}: {e}")
                 continue
 
-        if not result or result.get("status") != "success":
+        if not items:
             st.warning(f"No data returned for {symbol}.")
             continue
-
-        items = result.get("data", [])
 
         if provider_filter.strip():
             pf = provider_filter.strip().lower()
@@ -213,7 +221,9 @@ for (symbol, exchange), tab in zip(entries, tabs):
             provider = item.get("source") or item.get("provider", "")
             published = format_timestamp(item.get("published"))
             story_path = item.get("storyPath", "")
-            link = f"https://www.tradingview.com{story_path}" if story_path else None
+            link = item.get("link") or (
+                f"https://www.tradingview.com{story_path}" if story_path else None
+            )
 
             related = item.get("relatedSymbols", []) or []
             related_str = ", ".join(

@@ -1,2 +1,3 @@
 streamlit
-tradingview-scraper
+tradingview-scraper==0.4.20
+setuptools<81
