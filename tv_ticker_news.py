@@ -51,6 +51,12 @@ st.markdown(
         color: {TEXT} !important;
         font-family: 'Courier New', Courier, monospace !important;
     }}
+    /* Streamlit icons (sidebar toggle etc.) are Material Symbols ligatures;
+       forcing Courier on them renders the raw ligature text instead. */
+    span[data-testid="stIconMaterial"],
+    [class*="material-symbols"] {{
+        font-family: "Material Symbols Rounded" !important;
+    }}
     h1, h2, h3, h4,
     h1 span, h2 span, h3 span, h4 span {{
         color: {ACCENT} !important;
