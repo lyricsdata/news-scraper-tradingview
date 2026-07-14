@@ -29,29 +29,35 @@ st.set_page_config(
     layout="wide",
 )
 
-AMBER = "#ffb000"
-AMBER_DIM = "#a86f00"
-BG = "#0b0d0a"
-PANEL = "#111310"
+ACCENT = "#ffb000"  # headings, links, buttons only
+TEXT = "#e8d5a3"    # body text: desaturated warm amber
+DIM = "#8a7a4d"     # meta info
+BG = "#0d0e0b"
+PANEL = "#14150f"
 
 st.markdown(
     f"""
     <style>
     .stApp {{
         background-color: {BG};
-        color: {AMBER};
+        color: {TEXT};
         font-family: 'Courier New', Courier, monospace;
     }}
     section[data-testid="stSidebar"] {{
         background-color: {PANEL};
-        border-right: 1px solid {AMBER_DIM};
+        border-right: 1px solid {DIM};
     }}
-    h1, h2, h3, h4, p, span, label, div {{
-        color: {AMBER} !important;
+    p, span, label, div {{
+        color: {TEXT} !important;
+        font-family: 'Courier New', Courier, monospace !important;
+    }}
+    h1, h2, h3, h4,
+    h1 span, h2 span, h3 span, h4 span {{
+        color: {ACCENT} !important;
         font-family: 'Courier New', Courier, monospace !important;
     }}
     .news-card {{
-        border: 1px solid {AMBER_DIM};
+        border: 1px solid {DIM};
         background-color: {PANEL};
         padding: 12px 16px;
         margin-bottom: 10px;
@@ -60,30 +66,33 @@ st.markdown(
     .news-title {{
         font-size: 1.05rem;
         font-weight: bold;
-        color: {AMBER} !important;
+        color: {TEXT} !important;
         text-decoration: none;
     }}
+    .news-title:hover {{
+        color: {ACCENT} !important;
+    }}
     .news-meta {{
-        color: {AMBER_DIM} !important;
+        color: {DIM} !important;
         font-size: 0.8rem;
         margin-top: 4px;
     }}
     a {{
-        color: {AMBER} !important;
+        color: {ACCENT} !important;
     }}
     .stTextInput input, .stSelectbox div, .stMultiSelect div {{
         background-color: {PANEL} !important;
-        color: {AMBER} !important;
-        border-color: {AMBER_DIM} !important;
+        color: {TEXT} !important;
+        border-color: {DIM} !important;
     }}
     div.stButton > button {{
         background-color: {PANEL};
-        color: {AMBER};
-        border: 1px solid {AMBER};
+        color: {ACCENT};
+        border: 1px solid {ACCENT};
         font-family: 'Courier New', Courier, monospace;
     }}
     div.stButton > button:hover {{
-        background-color: {AMBER};
+        background-color: {ACCENT};
         color: {BG};
     }}
     </style>
