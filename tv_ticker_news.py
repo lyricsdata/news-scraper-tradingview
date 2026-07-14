@@ -116,7 +116,7 @@ st.caption("TradingView news feed, filtered to specific symbols")
 # ----------------------------------------------------------------------------
 with st.sidebar:
     st.header("SYMBOLS")
-    default_tickers = "AAPL:NASDAQ, TSLA:NASDAQ"
+    default_tickers = "GOOG:NASDAQ, PLTR:NASDAQ, SPCX:NASDAQ, AAPL:NASDAQ"
     tickers_raw = st.text_area(
         "Ticker:Exchange (one per line or comma-separated)",
         value=default_tickers,
