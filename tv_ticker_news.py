@@ -65,7 +65,7 @@ st.markdown(
     }}
     .news-title {{
         font-size: 1.05rem;
-        font-weight: bold;
+        font-weight: normal;
         color: {TEXT} !important;
         text-decoration: none;
         font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif !important;
