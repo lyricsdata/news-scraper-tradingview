@@ -68,6 +68,7 @@ st.markdown(
         font-weight: bold;
         color: {TEXT} !important;
         text-decoration: none;
+        font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif !important;
     }}
     .news-title:hover {{
         color: {ACCENT} !important;
