@@ -44,12 +44,13 @@ st.markdown(
     .news-meta {{font-size:.74rem; margin-top:.45rem;}}
     .tag,.new-badge {{border:1px solid {DIM}; border-radius:3px; padding:.05rem .4rem; margin-right:.4rem;}}
     .tag {{color:{ACCENT} !important;}} .new-badge {{color:#72d6df !important; border-color:#72d6df; font-weight:bold;}}
-    [data-testid="stMetric"] {{background:{PANEL}; border:1px solid {LINE}; border-radius:5px; padding:.5rem .7rem;}}
+    [data-testid="stMetric"] {{background:{PANEL}; border:1px solid {LINE}; border-radius:5px; padding:.5rem .7rem; height:6rem; box-sizing:border-box;}}
     [data-testid="stMetricLabel"] {{color:{DIM} !important; font-family:"Courier New",monospace;}}
     [data-testid="stMetricValue"], [data-testid="stMetricValue"] div {{color:{ACCENT} !important; font-family:"Courier New",monospace; font-size:1.35rem !important; white-space:pre-line !important; overflow:visible !important; text-overflow:unset !important; line-height:1.2;}}
-    .fetch-metric {{background:{PANEL}; border:1px solid {LINE}; border-radius:5px; padding:.5rem .7rem; min-height:4.35rem; box-sizing:border-box;}}
+    .fetch-metric {{background:{PANEL}; border:1px solid {LINE}; border-radius:5px; padding:.5rem .7rem; height:6rem; box-sizing:border-box;}}
     .fetch-metric-label {{color:{DIM} !important; font-family:"Courier New",monospace; font-size:.875rem;}}
     .fetch-metric-value {{color:{ACCENT} !important; font-family:"Courier New",monospace; font-size:1.1rem; line-height:1.25; margin-top:.2rem;}}
+    .stats-spacer {{height:.85rem;}}
     </style>
     """,
     unsafe_allow_html=True,
@@ -230,6 +231,7 @@ c3.markdown(
     f'<div class="fetch-metric-value">{fetched_at}</div></div>',
     unsafe_allow_html=True,
 )
+st.markdown('<div class="stats-spacer"></div>', unsafe_allow_html=True)
 
 filter_a, filter_b, filter_c = st.columns([2, 2, 3])
 with filter_a:
