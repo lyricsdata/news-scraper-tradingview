@@ -44,13 +44,13 @@ st.markdown(
     .news-meta {{font-size:.74rem; margin-top:.45rem;}}
     .tag,.new-badge {{border:1px solid {DIM}; border-radius:3px; padding:.05rem .4rem; margin-right:.4rem;}}
     .tag {{color:{ACCENT} !important;}} .new-badge {{color:#72d6df !important; border-color:#72d6df; font-weight:bold;}}
-    [data-testid="stMetric"] {{background:{PANEL}; border:1px solid {LINE}; border-radius:5px; padding:.5rem .7rem; height:6rem; box-sizing:border-box;}}
-    [data-testid="stMetricLabel"] {{color:{DIM} !important; font-family:"Courier New",monospace;}}
-    [data-testid="stMetricValue"], [data-testid="stMetricValue"] div {{color:{ACCENT} !important; font-family:"Courier New",monospace; font-size:1.35rem !important; white-space:pre-line !important; overflow:visible !important; text-overflow:unset !important; line-height:1.2;}}
-    .fetch-metric {{background:{PANEL}; border:1px solid {LINE}; border-radius:5px; padding:.5rem .7rem; height:6rem; box-sizing:border-box;}}
-    .fetch-metric-label {{color:{DIM} !important; font-family:"Courier New",monospace; font-size:.875rem;}}
-    .fetch-metric-value {{color:{ACCENT} !important; font-family:"Courier New",monospace; font-size:1.1rem; line-height:1.25; margin-top:.2rem;}}
+    .summary-card {{background:{PANEL}; border:1px solid {LINE}; border-radius:5px; padding:.45rem .7rem; height:5rem; box-sizing:border-box;}}
+    .summary-label {{color:{DIM} !important; font-family:"Courier New",monospace; font-size:.8rem;}}
+    .summary-value {{color:{ACCENT} !important; font-family:"Courier New",monospace; font-size:1.1rem; line-height:1.2; margin-top:.18rem;}}
     .stats-spacer {{height:.85rem;}}
+    @media (max-width: 640px) {{
+        .summary-card {{height:4.75rem;}}
+    }}
     </style>
     """,
     unsafe_allow_html=True,
@@ -223,14 +223,18 @@ new_urls = current_urls - prior_urls if prior_urls is not None else set()
 st.session_state.seen_news_urls = current_urls
 
 c1, c2, c3 = st.columns(3)
-c1.metric("Articles", len(articles))
-c2.metric("Tickers", len(resolved_entries))
-fetched_at = datetime.now(SGT).strftime("%d %b<br>%H:%M SGT")
-c3.markdown(
-    f'<div class="fetch-metric"><div class="fetch-metric-label">Last fetched</div>'
-    f'<div class="fetch-metric-value">{fetched_at}</div></div>',
-    unsafe_allow_html=True,
-)
+def render_summary_card(column, label: str, value: str) -> None:
+    column.markdown(
+        f'<div class="summary-card"><div class="summary-label">{label}</div>'
+        f'<div class="summary-value">{value}</div></div>',
+        unsafe_allow_html=True,
+    )
+
+
+render_summary_card(c1, "ARTICLES", str(len(articles)))
+render_summary_card(c2, "TICKERS", str(len(resolved_entries)))
+fetched_at = datetime.now(SGT).strftime("%Y-%m-%d<br>%H:%M")
+render_summary_card(c3, "LAST FETCHED (SGT)", fetched_at)
 st.markdown('<div class="stats-spacer"></div>', unsafe_allow_html=True)
 
 filter_a, filter_b, filter_c = st.columns([2, 2, 3])
