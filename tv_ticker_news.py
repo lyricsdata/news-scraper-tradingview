@@ -47,6 +47,9 @@ st.markdown(
     [data-testid="stMetric"] {{background:{PANEL}; border:1px solid {LINE}; border-radius:5px; padding:.5rem .7rem;}}
     [data-testid="stMetricLabel"] {{color:{DIM} !important; font-family:"Courier New",monospace;}}
     [data-testid="stMetricValue"], [data-testid="stMetricValue"] div {{color:{ACCENT} !important; font-family:"Courier New",monospace; font-size:1.35rem !important; white-space:pre-line !important; overflow:visible !important; text-overflow:unset !important; line-height:1.2;}}
+    .fetch-metric {{background:{PANEL}; border:1px solid {LINE}; border-radius:5px; padding:.5rem .7rem; min-height:4.35rem; box-sizing:border-box;}}
+    .fetch-metric-label {{color:{DIM} !important; font-family:"Courier New",monospace; font-size:.875rem;}}
+    .fetch-metric-value {{color:{ACCENT} !important; font-family:"Courier New",monospace; font-size:1.1rem; line-height:1.25; margin-top:.2rem;}}
     </style>
     """,
     unsafe_allow_html=True,
@@ -221,7 +224,12 @@ st.session_state.seen_news_urls = current_urls
 c1, c2, c3 = st.columns(3)
 c1.metric("Articles", len(articles))
 c2.metric("Tickers", len(resolved_entries))
-c3.metric("Last fetched", datetime.now(SGT).strftime("%d %b\n%H:%M SGT"))
+fetched_at = datetime.now(SGT).strftime("%d %b<br>%H:%M SGT")
+c3.markdown(
+    f'<div class="fetch-metric"><div class="fetch-metric-label">Last fetched</div>'
+    f'<div class="fetch-metric-value">{fetched_at}</div></div>',
+    unsafe_allow_html=True,
+)
 
 filter_a, filter_b, filter_c = st.columns([2, 2, 3])
 with filter_a:
